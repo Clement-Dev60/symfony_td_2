@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des annonces{% endblock %}
+
+{% block body %}
+    <h1>Liste des annonces</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Photo</th>
+                <th>Date de création</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for listing in listings %}
+            <tr>
+                <td>{{ listing.title }}</td>
+                <td>{{ listing.description }}</td>
+                <td>{{ listing.photoPath }}</td>
+                <td>{{ listing.createdAt ? listing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_listing_show', {'id': listing.id}) }}">Montrer</a>
+                    <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Pas d'annonce trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_listing_new') }}">Créer une annonce</a>
+{% endblock %}
