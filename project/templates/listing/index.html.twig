@@ -21,7 +21,11 @@
             <tr>
                 <td>{{ listing.title }}</td>
                 <td>{{ listing.description }}</td>
-                <td>{{ listing.photoPath }}</td>
+                <td>
+    {% if listing.photoPath %}
+        <img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}" style="max-width: 100px">
+    {% endif %}
+</td>
                 <td>{{ listing.createdAt ? listing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ listing.category.name }}</td>
                 <td>
