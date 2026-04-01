@@ -12,6 +12,7 @@
                 <th>Description</th>
                 <th>Photo</th>
                 <th>Date de création</th>
+                <th>Catégorie</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ listing.description }}</td>
                 <td>{{ listing.photoPath }}</td>
                 <td>{{ listing.createdAt ? listing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ listing.category.name }}</td>
                 <td>
                     <a href="{{ path('app_listing_show', {'id': listing.id}) }}">Montrer</a>
                     <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>

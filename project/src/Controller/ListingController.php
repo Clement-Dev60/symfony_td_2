@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/listing')]
 #[IsGranted('ROLE_USER')]
@@ -25,13 +26,27 @@ final class ListingController extends AbstractController
     }
 
     #[Route('/new', name: 'app_listing_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $listing = new Listing();
         $form = $this->createForm(ListingType::class, $listing);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $photoFile = $form->get('photo')->getData();
+            if ($photoFile) {
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
+
+                $photoFile->move(
+                    $this->getParameter('photos_directory'),
+                    $newFilename
+                );
+
+                $listing->setPhotoPath('uploads/photos/' . $newFilename);
+            }
+
             $listing->setAuthor($this->getUser());
             $entityManager->persist($listing);
             $entityManager->flush();
@@ -84,7 +99,7 @@ final class ListingController extends AbstractController
     public function delete(Request $request, Listing $listing, EntityManagerInterface $entityManager): Response
     {
 
-    if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+        if ($listing->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cette annonce.');
         }
 

@@ -34,6 +34,11 @@ class Listing
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
