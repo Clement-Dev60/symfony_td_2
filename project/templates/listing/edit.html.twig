@@ -3,11 +3,43 @@
 {% block title %}Modifier l'annonce{% endblock %}
 
 {% block body %}
-    <h1>Modifier l'annonce</h1>
 
-    {{ include('listing/_form.html.twig', {'button_label': 'Update'}) }}
+<h1 class="text-center">Modifier l'annonce</h1>
 
-    <a href="{{ path('app_listing_index') }}">Retour à la liste</a>
+<div class="card" style="max-width: 600px; margin: 40px auto;">
 
-    {{ include('listing/_delete_form.html.twig') }}
+    {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_row(form.title) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.description) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.category) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.photo) }}
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;">
+            Mettre à jour
+        </button>
+
+    {{ form_end(form) }}
+
+    <div class="flex mt-20">
+        <a href="{{ path('app_listing_index') }}" class="btn btn-secondary">
+            Retour
+        </a>
+
+        {{ include('listing/_delete_form.html.twig') }}
+    </div>
+
+</div>
+
 {% endblock %}

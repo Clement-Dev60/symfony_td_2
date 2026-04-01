@@ -3,14 +3,40 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
-    <h1>Mon profil</h1>
+
+<h1>Mon profil</h1>
+
+<div class="card mt-20" style="max-width:600px;">
 
     <p><strong>Prénom :</strong> {{ user.firstName }}</p>
     <p><strong>Nom :</strong> {{ user.lastName }}</p>
     <p><strong>Email :</strong> {{ user.email }}</p>
-    <p><strong>Membre depuis :</strong> {{ user.createdAt|date('d/m/Y') }}</p>
+    <p class="text-muted">
+        Membre depuis : {{ user.createdAt|date('d/m/Y') }}
+    </p>
 
-    <a href="{{ path('app_profile_edit') }}">Modifier mon profil</a>
-    <a href="{{ path('app_profile_change_password') }}">Changer mon mot de passe</a>
-    <a href="{{ path('app_listing_new') }}">Créer une annonce</a>
+    <div class="flex mt-20">
+        <a href="{{ path('app_profile_edit') }}" class="btn btn-secondary">
+            Modifier profil
+        </a>
+
+        <a href="{{ path('app_profile_change_password') }}" class="btn btn-secondary">
+            Changer mon mot de passe
+        </a>
+    </div>
+
+    <div class="flex mt-20">
+        {% if user.emailVerifiedAt %}
+            <a href="{{ path('app_listing_new') }}" class="btn btn-primary">
+                + Nouvelle annonce
+            </a>
+        {% else %}
+            <a href="{{ path('app_resend_verification') }}" class="btn btn-danger">
+                Vérifier mon email
+            </a>
+        {% endif %}
+    </div>
+
+</div>
+
 {% endblock %}

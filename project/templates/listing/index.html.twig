@@ -1,45 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des annonces{% endblock %}
+{% block title %}Mes annonces{% endblock %}
 
 {% block body %}
-    <h1>Liste des annonces</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Photo</th>
-                <th>Date de création</th>
-                <th>Catégorie</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for listing in listings %}
-            <tr>
-                <td>{{ listing.title }}</td>
-                <td>{{ listing.description }}</td>
-                <td>
-    {% if listing.photoPath %}
-        <img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}" style="max-width: 100px">
-    {% endif %}
-</td>
-                <td>{{ listing.createdAt ? listing.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ listing.category.name }}</td>
-                <td>
-                    <a href="{{ path('app_listing_show', {'id': listing.id}) }}">Montrer</a>
-                    <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Pas d'annonce trouvée</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="flex space-between">
+    <h1>Mes annonces</h1>
 
-    <a href="{{ path('app_listing_new') }}">Créer une annonce</a>
+    <a href="{{ path('app_listing_new') }}" class="btn btn-primary">
+        + Nouvelle annonce
+    </a>
+</div>
+
+{% if listings is empty %}
+    <p class="text-muted mt-20">Tu n’as encore publié aucune annonce.</p>
+{% else %}
+
+<div class="grid mt-20">
+    {% for listing in listings %}
+        <div class="card">
+
+            {% if listing.photoPath %}
+                <img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}">
+            {% else %}
+                <img src="{{ asset('images/default.jpg') }}" alt="default">
+            {% endif %}
+
+            <div class="card-title">{{ listing.title }}</div>
+
+            <div class="card-meta">
+                {{ listing.createdAt|date('d/m/Y') }}
+            </div>
+
+            <div class="mt-20 flex space-between">
+                <span class="badge badge-secondary">
+                    {{ listing.category.name }}
+                </span>
+            </div>
+
+            <p class="text-muted mt-20" style="font-size:0.9rem;">
+                {{ listing.description|slice(0, 80) }}...
+            </p>
+
+            <div class="mt-20 flex space-between">
+                <a href="{{ path('app_listing_show', {'id': listing.id}) }}" class="btn btn-secondary">
+                    Voir
+                </a>
+
+                <a href="{{ path('app_listing_edit', {'id': listing.id}) }}" class="btn btn-primary">
+                    Modifier
+                </a>
+            </div>
+
+        </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+
 {% endblock %}

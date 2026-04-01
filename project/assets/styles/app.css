@@ -1,3 +1,235 @@
+:root {
+    --color-primary: #00e5a8; 
+    --color-secondary: #7b5cfa; 
+    --color-danger: #ff3b5c; 
+
+    --color-bg: #0d0d0f; 
+    --color-card: #1c1c24; 
+    --color-surface: #15151b;
+
+    --color-text: #f0f0f5; 
+    --color-text-muted: #a0a0b0;
+
+    --radius: 12px;
+    --transition: 0.2s ease;
+}
+
 body {
-    background-color: white;
+    margin: 0;
+    font-family: "DM Sans", sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+
+.btn {
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: #000;
+}
+
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--color-secondary);
+    color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--color-secondary);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--color-danger);
+    color: white;
+}
+
+
+.card {
+    background: var(--color-card);
+    border-radius: var(--radius);
+    padding: 16px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.card:hover {
+    border: 1px solid var(--color-primary);
+    transform: translateY(-3px);
+}
+
+.card img {
+    width: 100%;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.card-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: rgba(0, 229, 168, 0.15);
+    color: var(--color-primary);
+}
+
+.badge-danger {
+    background: rgba(255, 59, 92, 0.15);
+    color: var(--color-danger);
+}
+
+.badge-secondary {
+    background: rgba(123, 92, 250, 0.15);
+    color: var(--color-secondary);
+}
+
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--radius);
+    border: 1px solid #2a2a35;
+    background: var(--color-surface);
+    color: var(--color-text);
+    margin-bottom: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: var(--color-surface);
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-family: "Rajdhani", sans-serif;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
+
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.text-center {
+    text-align: center;
 }

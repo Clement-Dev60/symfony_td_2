@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\EditProfileType;
+use App\Repository\UserRepository;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,11 +17,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 final class ProfileController extends AbstractController
 {
+
     #[Route('', name: 'app_profile')]
-    public function index(): Response
+    public function index(UserRepository $userRepository): Response
     {
+        /** @var \App\Entity\User $currentUser */
+        $currentUser = $this->getUser();
+
+        // Recharge l'utilisateur frais depuis la base
+        $user = $userRepository->find($currentUser->getId());
+
         return $this->render('profile/index.html.twig', [
-            'user' => $this->getUser(),
+            'user' => $user,
         ]);
     }
 

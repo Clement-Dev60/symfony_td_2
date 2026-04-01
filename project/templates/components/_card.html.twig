@@ -1,0 +1,22 @@
+<div class="card">
+    <img src="{{ asset(image) }}" alt="{{ title }}">
+
+    <div class="card-title">{{ title }}</div>
+
+    <div class="card-meta">
+        {{ location }} • {{ date }}
+    </div>
+
+    <div class="mt-20 flex space-between">
+        <span class="badge badge-secondary">{{ platform }}</span>
+
+        {% if isNew %}
+            <span class="badge badge-success">Disponible</span>
+        {% endif %}
+    </div>
+    <div class="mt-20">
+        <a href="{{ path('app_listing_show', { id: listing.id }) }}" class="btn btn-primary" style="width:100%;">
+            Voir l'annonce
+        </a>
+    </div>
+</div>

@@ -3,39 +3,47 @@
 {% block title %}{{ listing.title }}{% endblock %}
 
 {% block body %}
+
+<div class="card" style="max-width: 800px; margin: 40px auto;">
+
+    {% if listing.photoPath %}
+        <img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}" style="width:100%; border-radius:12px; margin-bottom:20px;">
+    {% endif %}
+
     <h1>{{ listing.title }}</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Description</th>
-                <td>{{ listing.description }}</td>
-            </tr>
-            <tr>
-                <th>Catégorie</th>
-                <td>{{ listing.category.name }}</td>
-            </tr>
-            <tr>
-                <th>Publié par</th>
-                <td>{{ listing.author.fullName }}</td>
-            </tr>
-            <tr>
-                <th>Date de publication</th>
-                <td>{{ listing.createdAt|date('d/m/Y à H:i') }}</td>
-            </tr>
-            {% if listing.photoPath %}
-            <tr>
-                <th>Photo</th>
-                <td><img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}" style="max-width: 300px"></td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <p class="text-muted">
+        {{ listing.category.name }} • publié le {{ listing.createdAt|date('d/m/Y') }}
+    </p>
 
-    <a href="{{ path('app_listing_index') }}">Retour à la liste</a>
+    <p style="margin-top:20px;">
+        {{ listing.description }}
+    </p>
 
-    {% if app.user == listing.author or is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>
-        {{ include('listing/_delete_form.html.twig') }}
-    {% endif %}
+    <div class="mt-20 flex space-between">
+        <span class="badge badge-secondary">
+            {{ listing.category.name }}
+        </span>
+
+        <span class="text-muted">
+            par {{ listing.author.fullName }}
+        </span>
+    </div>
+
+    <div class="mt-20 flex">
+        <a href="{{ path('app_listing_index') }}" class="btn btn-secondary">
+            Retour
+        </a>
+
+        {% if app.user == listing.author or is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_listing_edit', {'id': listing.id}) }}" class="btn btn-primary">
+                Modifier
+            </a>
+
+            {{ include('listing/_delete_form.html.twig') }}
+        {% endif %}
+    </div>
+
+</div>
+
 {% endblock %}

@@ -18,9 +18,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
-    {
-    }
+    public function __construct(private EmailVerifier $emailVerifier) {}
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
@@ -44,7 +42,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // Envoi de l'email de confirmation
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('noreply@dealgames.fr', 'DealGames'))
                     ->to((string) $user->getEmail())
@@ -80,5 +80,29 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Votre email a bien été vérifié. Vous pouvez vous connecter !');
 
         return $this->redirectToRoute('app_login');
+    }
+    #[Route('/resend-verification', name: 'app_resend_verification')]
+    public function resendVerification(): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        if ($user->isVerified()) {
+            return $this->redirectToRoute('app_profile');
+        }
+
+        $this->emailVerifier->sendEmailConfirmation(
+            'app_verify_email',
+            $user,
+            (new TemplatedEmail())
+                ->from(new Address('noreply@dealgames.fr', 'DealGames'))
+                ->to((string) $user->getEmail())
+                ->subject('Confirmez votre adresse email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
+
+        $this->addFlash('success', 'Email de vérification renvoyé !');
+
+        return $this->redirectToRoute('app_profile');
     }
 }

@@ -1,0 +1,17 @@
+<nav class="navbar">
+    <div class="logo">
+        deal<span style="color: white;">games</span>
+    </div>
+
+    <div class="flex">
+        <a href="{{ path('app_home') }}">Accueil</a>
+
+        {% if app.user %}
+            <a href="{{ path('app_profile') }}">Profil</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-secondary">Déconnexion</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-secondary">Connexion</a>
+            <a href="{{ path('app_register') }}" class="btn btn-primary">Inscription</a>
+        {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Gestion des utilisateurs</h1>
+
+    <a href="{{ path('app_admin') }}">Retour au panel</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Vérifié</th>
+                <th>Inscrit le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <form method="post" action="{{ path('app_admin_user_role', {'id': user.id}) }}">
+                            <select name="role" onchange="this.form.submit()">
+                                <option value="" {% if 'ROLE_ADMIN' not in user.roles and 'ROLE_MODERATOR' not in user.roles %}selected{% endif %}>Utilisateur</option>
+                                <option value="ROLE_MODERATOR" {% if 'ROLE_MODERATOR' in user.roles %}selected{% endif %}>Modérateur</option>
+                                <option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>Administrateur</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>{{ user.emailVerifiedAt ? 'Oui' : 'Non' }}</td>
+                    <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                    <td>
+                        <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('app_admin_user_delete', {'id': user.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                            <button type="submit" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

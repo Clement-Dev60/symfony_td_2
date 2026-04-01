@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des annonces{% endblock %}
+
+{% block body %}
+    <h1>Gestion des annonces</h1>
+
+    <a href="{{ path('app_admin') }}">Retour au panel</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Catégorie</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for listing in listings %}
+                <tr>
+                    <td>{{ listing.title }}</td>
+                    <td>{{ listing.author.fullName }}</td>
+                    <td>{{ listing.category.name }}</td>
+                    <td>{{ listing.createdAt|date('d/m/Y') }}</td>
+                    <td>
+                        <a href="{{ path('app_listing_show', {'id': listing.id}) }}">Voir</a>
+                        <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('app_admin_listing_delete', {'id': listing.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ listing.id) }}">
+                            <button type="submit" onclick="return confirm('Supprimer cette annonce ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

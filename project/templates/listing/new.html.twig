@@ -3,9 +3,41 @@
 {% block title %}Nouvelle annonce{% endblock %}
 
 {% block body %}
-    <h1>Créer une nouvelle annonce</h1>
 
-    {{ include('listing/_form.html.twig') }}
+<h1 class="text-center">Créer une annonce</h1>
 
-    <a href="{{ path('app_listing_index') }}">Retour à la liste</a>
+<div class="card" style="max-width: 600px; margin: 40px auto;">
+
+    {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_row(form.title) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.description) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.category) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.photo) }}
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;">
+            Publier l'annonce
+        </button>
+
+    {{ form_end(form) }}
+
+    <div class="mt-20 text-center">
+        <a href="{{ path('app_listing_index') }}" class="text-muted">
+            ← Retour
+        </a>
+    </div>
+
+</div>
+
 {% endblock %}

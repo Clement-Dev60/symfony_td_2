@@ -3,25 +3,24 @@
 {% block title %}Dealgames - Accueil{% endblock %}
 
 {% block body %}
-    <h1>Les dernières annonces</h1>
 
-    {% if listings is empty %}
-        <p>Aucune annonce disponible pour le moment.</p>
-    {% else %}
-        <div>
-            {% for listing in listings %}
-                <div>
-                    {% if listing.photoPath %}
-                        <img src="{{ asset(listing.photoPath) }}" alt="{{ listing.title }}">
-                    {% endif %}
-                    <h2>{{ listing.title }}</h2>
-                    <p>{{ listing.description|slice(0, 150) }}...</p>
-                    <p>Catégorie : {{ listing.category.name }}</p>
-                    <p>Publié par : {{ listing.author.fullName }}</p>
-                    <p>Le : {{ listing.createdAt|date('d/m/Y') }}</p>
-                    <a href="#">Voir l'annonce</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+<h1>Les dernières annonces</h1>
+
+{% if listings is empty %}
+    <p class="text-muted">Aucune annonce disponible pour le moment.</p>
+{% else %}
+    <div class="grid mt-20">
+        {% for listing in listings %}
+            {% include 'components/_card.html.twig' with {
+                title: listing.title,
+                image: listing.photoPath,
+                location: listing.location ?? 'Non précisé',
+                date: listing.createdAt|date('d/m/Y'),
+                platform: listing.category.name ?? 'Autre',
+                isNew: true
+            } %}
+        {% endfor %}
+    </div>
+{% endif %}
+
 {% endblock %}
