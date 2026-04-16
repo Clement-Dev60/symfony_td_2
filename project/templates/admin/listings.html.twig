@@ -1,39 +1,51 @@
 {% extends 'base.html.twig' %}
+{% block header %}
+    <style>
+    td[data-label="Actions"] a,
+    td[data-label="Actions"] form {
+        margin-right: 5px; /* espace entre les boutons */
+        display: inline-block;
+    }
 
+    td[data-label="Actions"] form {
+        margin: 0; /* supprime le margin si nécessaire */
+    }
+    </style>
+{% endblock header %}
 {% block title %}Gestion des annonces{% endblock %}
 
 {% block body %}
     <h1>Gestion des annonces</h1>
 
-    <a href="{{ path('app_admin') }}">Retour au panel</a>
+    <a href="{{ path('app_admin') }}" class="btn btn-danger">Retour au panel</a>
 
     <table>
-        <thead>
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Catégorie</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for listing in listings %}
             <tr>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Catégorie</th>
-                <th>Date</th>
-                <th>Actions</th>
+                <td data-label="Titre">{{ listing.title }}</td>
+                <td data-label="Auteur">{{ listing.author.fullName }}</td>
+                <td data-label="Catégorie">{{ listing.category.name }}</td>
+                <td data-label="Date">{{ listing.createdAt|date('d/m/Y') }}</td>
+                <td data-label="Actions">
+                    <a href="{{ path('app_listing_show', {'id': listing.id}) }}" class="btn btn-secondary">Voir</a>
+                    <a href="{{ path('app_listing_edit', {'id': listing.id}) }}" class="btn btn-primary">Modifier</a>
+                    <form method="post" action="{{ path('app_admin_listing_delete', {'id': listing.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ listing.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer cette annonce ?')">Supprimer</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for listing in listings %}
-                <tr>
-                    <td>{{ listing.title }}</td>
-                    <td>{{ listing.author.fullName }}</td>
-                    <td>{{ listing.category.name }}</td>
-                    <td>{{ listing.createdAt|date('d/m/Y') }}</td>
-                    <td>
-                        <a href="{{ path('app_listing_show', {'id': listing.id}) }}">Voir</a>
-                        <a href="{{ path('app_listing_edit', {'id': listing.id}) }}">Modifier</a>
-                        <form method="post" action="{{ path('app_admin_listing_delete', {'id': listing.id}) }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ listing.id) }}">
-                            <button type="submit" onclick="return confirm('Supprimer cette annonce ?')">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

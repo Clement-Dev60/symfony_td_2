@@ -23,7 +23,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        // Redirige vers l'accueil si déjà connecté
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
@@ -41,7 +40,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Envoi de l'email de confirmation
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
                 $user,
@@ -52,7 +50,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Inscription réussie ! Vérifiez votre email pour activer votre compte.');
+            $this->addFlash('success', 'Inscription réussie. Vérifiez votre email pour activer votre compte.');
 
             return $this->redirectToRoute('app_home');
         }
@@ -77,7 +75,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Votre email a bien été vérifié. Vous pouvez vous connecter !');
+        $this->addFlash('success', 'Votre email a bien été vérifié. Vous pouvez vous connecter.');
 
         return $this->redirectToRoute('app_login');
     }
@@ -101,7 +99,7 @@ class RegistrationController extends AbstractController
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
 
-        $this->addFlash('success', 'Email de vérification renvoyé !');
+        $this->addFlash('success', 'Email de vérification renvoyé.');
 
         return $this->redirectToRoute('app_profile');
     }

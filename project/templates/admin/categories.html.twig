@@ -5,28 +5,28 @@
 {% block body %}
     <h1>Gestion des catégories</h1>
 
-    <a href="{{ path('app_admin') }}">Retour au panel</a>
-    <a href="{{ path('app_admin_category_new') }}">Ajouter une catégorie</a>
+    <a href="{{ path('app_admin') }}" class="btn btn-danger">Retour au panel</a>
+    <a href="{{ path('app_admin_category_new') }}" class="btn btn-primary">Ajouter une catégorie</a>
 
     <table>
-        <thead>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories %}
             <tr>
-                <th>Nom</th>
-                <th>Actions</th>
+                <td data-label="Nom">{{ category.name }}</td>
+                <td data-label="Actions">
+                    <form method="post" action="{{ path('app_admin_category_delete', {'id': category.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer cette catégorie ?')">Supprimer</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ category.name }}</td>
-                    <td>
-                        <form method="post" action="{{ path('app_admin_category_delete', {'id': category.id}) }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
-                            <button type="submit" onclick="return confirm('Supprimer cette catégorie ?')">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

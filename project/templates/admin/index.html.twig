@@ -3,7 +3,8 @@
 {% block title %}Panel Admin{% endblock %}
 
 {% block body %}
-    <h1>Panel Admin</h1>
+<div class="card">
+    <div class="card-title"><h1>Panel Admin</h1></div>
 
     <h2>Statistiques</h2>
     <p>Utilisateurs : {{ users|length }}</p>
@@ -11,7 +12,8 @@
     <p>Catégories : {{ categories|length }}</p>
 
     <h2>Gestion</h2>
-    <a href="{{ path('app_admin_users') }}">Gérer les utilisateurs</a>
-<a href="{{ path('app_admin_listings') }}">Gérer les annonces</a>
-<a href="{{ path('app_admin_categories') }}">Gérer les catégories</a>
+    <a href="{{ path('app_admin_users') }}" class="btn btn-primary">Gérer les utilisateurs</a>
+    <a href="{{ path('app_admin_listings') }}" class="btn btn-primary">Gérer les annonces</a>
+    <a href="{{ path('app_admin_categories') }}" class="btn btn-primary">Gérer les catégories</a>
+</div>
 {% endblock %}

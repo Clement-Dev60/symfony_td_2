@@ -1,11 +1,55 @@
 <nav class="navbar">
     <div class="logo">
-        deal<span style="color: white;">games</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 100" width="340" height="100">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&amp;display=swap');
+    </style>
+  </defs>
+
+  <rect x="4" y="24" width="72" height="48" rx="24" fill="#1C1C24" stroke="#2A2A36" stroke-width="1.5"/>
+
+  <rect x="14" y="44" width="18" height="7" rx="2" fill="#00E5A0"/>
+  <rect x="19" y="38" width="7" height="18" rx="2" fill="#00E5A0"/>
+
+  <circle cx="57" cy="42" r="4.5" fill="#7B5CFA"/>
+  <circle cx="66" cy="50" r="4.5" fill="#FF3B5C"/>
+  <circle cx="57" cy="58" r="4.5" fill="#00E5A0"/>
+  <circle cx="48" cy="50" r="4.5" fill="#F0EEF8" opacity="0.25"/>
+
+  <path d="M34 50 L38 45 L42 50 L38 55 Z" fill="#00E5A0" opacity="0.85"/>
+
+  <text
+    x="90" y="68"
+    font-family="Rajdhani, sans-serif"
+    font-weight="700"
+    font-size="52"
+    letter-spacing="-1"
+    fill="#00E5A0">deal</text>
+
+  <text
+    x="197" y="68"
+    font-family="Rajdhani, sans-serif"
+    font-weight="700"
+    font-size="52"
+    letter-spacing="-1"
+    fill="#F0EEF8">games</text>
+
+  <text
+    x="91" y="84"
+    font-family="monospace"
+    font-size="9"
+    letter-spacing="2.5"
+    fill="#7A7890">BY GAMERS — LOI 1901</text>
+</svg>
     </div>
 
     <div class="flex">
         <a href="{{ path('app_home') }}">Accueil</a>
-
+        <a href="{{ path('app_listing_index') }}">Annonces</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_admin') }}">Panel Admin</a>
+            {% endif %}
         {% if app.user %}
             <a href="{{ path('app_profile') }}">Profil</a>
             <a href="{{ path('app_logout') }}" class="btn btn-secondary">Déconnexion</a>

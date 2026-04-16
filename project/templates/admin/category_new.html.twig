@@ -5,10 +5,10 @@
 {% block body %}
     <h1>Nouvelle catégorie</h1>
 
-    <a href="{{ path('app_admin_categories') }}">Retour à la liste</a>
+    <a href="{{ path('app_admin_categories') }}" class="btn btn-danger">Retour à la liste</a>
 
     {{ form_start(form) }}
         {{ form_row(form.name) }}
-        <button type="submit">Créer</button>
+        <button type="submit" class="btn btn-primary">Créer</button>
     {{ form_end(form) }}
 {% endblock %}

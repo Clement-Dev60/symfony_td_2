@@ -51,7 +51,7 @@ final class ListingController extends AbstractController
             $entityManager->persist($listing);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Annonce créée avec succès !');
+            $this->addFlash('success', 'Votre annonce a bien été créée.');
 
             return $this->redirectToRoute('app_listing_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -84,7 +84,7 @@ final class ListingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'Annonce modifiée avec succès !');
+            $this->addFlash('success', 'Votre annonce a bien été publiée.');
 
             return $this->redirectToRoute('app_listing_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -107,7 +107,7 @@ final class ListingController extends AbstractController
             $entityManager->remove($listing);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Annonce supprimée avec succès !');
+            $this->addFlash('success', 'Votre annonce a bien été supprimée.');
         }
 
         return $this->redirectToRoute('app_listing_index', [], Response::HTTP_SEE_OTHER);

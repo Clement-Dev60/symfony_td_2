@@ -24,7 +24,6 @@ final class ProfileController extends AbstractController
         /** @var \App\Entity\User $currentUser */
         $currentUser = $this->getUser();
 
-        // Recharge l'utilisateur frais depuis la base
         $user = $userRepository->find($currentUser->getId());
 
         return $this->render('profile/index.html.twig', [
@@ -41,7 +40,7 @@ final class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success', 'Profil mis à jour avec succès !');
+            $this->addFlash('success', 'Votre profil a bien été modifié.');
 
             return $this->redirectToRoute('app_profile');
         }
@@ -62,7 +61,6 @@ final class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $currentPassword = $form->get('currentPassword')->getData();
 
-            // Vérifie que l'ancien mot de passe est correct
             if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
                 $this->addFlash('error', 'Le mot de passe actuel est incorrect.');
                 return $this->redirectToRoute('app_profile_change_password');
@@ -72,7 +70,7 @@ final class ProfileController extends AbstractController
             $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
             $entityManager->flush();
 
-            $this->addFlash('success', 'Mot de passe modifié avec succès !');
+            $this->addFlash('success', 'Votre mot de passe a bien été modifié.');
             return $this->redirectToRoute('app_profile');
         }
 

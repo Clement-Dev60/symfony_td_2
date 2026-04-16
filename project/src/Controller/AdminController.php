@@ -50,7 +50,7 @@ final class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success', 'Utilisateur modifié avec succès !');
+            $this->addFlash('success', 'L utilisateur a bien été modifié.');
 
             return $this->redirectToRoute('app_admin_users');
         }
@@ -67,7 +67,7 @@ final class AdminController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
-            $this->addFlash('success', 'Utilisateur supprimé avec succès !');
+            $this->addFlash('success', 'L utilisateur a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_admin_users');
@@ -79,7 +79,7 @@ final class AdminController extends AbstractController
         $role = $request->request->get('role');
         $user->setRoles($role ? [$role] : []);
         $entityManager->flush();
-        $this->addFlash('success', 'Rôle modifié avec succès !');
+        $this->addFlash('success', 'Le rôle a bien été modifié.');
 
         return $this->redirectToRoute('app_admin_users');
     }
@@ -97,7 +97,7 @@ final class AdminController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $listing->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($listing);
             $entityManager->flush();
-            $this->addFlash('success', 'Annonce supprimée avec succès !');
+            $this->addFlash('success', 'L annonce a bien été supprimée.');
         }
 
         return $this->redirectToRoute('app_admin_listings');
@@ -121,7 +121,7 @@ final class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($category);
             $entityManager->flush();
-            $this->addFlash('success', 'Catégorie créée avec succès !');
+            $this->addFlash('success', 'La Catégorie a bien été créée.');
 
             return $this->redirectToRoute('app_admin_categories');
         }
@@ -137,7 +137,7 @@ final class AdminController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($category);
             $entityManager->flush();
-            $this->addFlash('success', 'Catégorie supprimée avec succès !');
+            $this->addFlash('success', 'La Catégorie a bien été supprimée.');
         }
 
         return $this->redirectToRoute('app_admin_categories');
